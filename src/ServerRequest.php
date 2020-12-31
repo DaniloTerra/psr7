@@ -28,9 +28,6 @@ final class ServerRequest implements ServerRequestInterface
     /** @var array */
     private $queryParams = [];
 
-    /** @var array */
-    private $serverParams;
-
     /** @var UploadedFileInterface[] */
     private $uploadedFiles = [];
 
@@ -40,12 +37,10 @@ final class ServerRequest implements ServerRequestInterface
      * @param array $headers Request headers
      * @param string|resource|StreamInterface|null $body Request body
      * @param string $version Protocol version
-     * @param array $serverParams Typically the $_SERVER superglobal
      */
-    public function __construct(string $method, $uri, array $headers = [], $body = null, string $version = '1.1', array $serverParams = [])
+    public function __construct(string $method, $uri, array $headers = [], $body = null, string $version = '1.1', /** @var array */
+    private array $serverParams = [])
     {
-        $this->serverParams = $serverParams;
-
         if (!($uri instanceof UriInterface)) {
             $uri = new Uri($uri);
         }

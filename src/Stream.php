@@ -13,7 +13,7 @@ use Symfony\Component\ErrorHandler\ErrorHandler as SymfonyErrorHandler;
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  * @author Martijn van der Ven <martijn@vanderven.se>
  */
-final class Stream implements StreamInterface
+final class Stream implements StreamInterface, \Stringable
 {
     /** @var resource|null A resource reference */
     private $stream;
@@ -98,7 +98,7 @@ final class Stream implements StreamInterface
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         try {
             if ($this->isSeekable()) {

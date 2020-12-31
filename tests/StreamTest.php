@@ -119,7 +119,7 @@ class StreamTest extends TestCase
             try {
                 $fn($stream);
                 $this->fail();
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // Suppress the exception
             }
         };

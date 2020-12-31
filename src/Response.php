@@ -27,27 +27,22 @@ final class Response implements ResponseInterface
     /** @var string */
     private $reasonPhrase = '';
 
-    /** @var int */
-    private $statusCode;
-
     /**
-     * @param int $status Status code
      * @param array $headers Response headers
      * @param string|resource|StreamInterface|null $body Response body
      * @param string $version Protocol version
      * @param string|null $reason Reason phrase (when empty a default will be used based on the status code)
      */
-    public function __construct(int $status = 200, array $headers = [], $body = null, string $version = '1.1', string $reason = null)
+    public function __construct(/** @var int */
+    private int $statusCode = 200, array $headers = [], $body = null, string $version = '1.1', string $reason = null)
     {
         // If we got no body, defer initialization of the stream until Response::getBody()
         if ('' !== $body && null !== $body) {
             $this->stream = Stream::create($body);
         }
-
-        $this->statusCode = $status;
         $this->setHeaders($headers);
         if (null === $reason && isset(self::PHRASES[$this->statusCode])) {
-            $this->reasonPhrase = self::PHRASES[$status];
+            $this->reasonPhrase = self::PHRASES[$statusCode];
         } else {
             $this->reasonPhrase = $reason ?? '';
         }

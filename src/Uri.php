@@ -15,7 +15,7 @@ use Psr\Http\Message\UriInterface;
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  * @author Martijn van der Ven <martijn@vanderven.se>
  */
-final class Uri implements UriInterface
+final class Uri implements UriInterface, \Stringable
 {
     use LowercaseTrait;
 
@@ -293,7 +293,7 @@ final class Uri implements UriInterface
             throw new \InvalidArgumentException('Path must be a string');
         }
 
-        return \preg_replace_callback('/(?:[^' . self::CHAR_UNRESERVED . self::CHAR_SUB_DELIMS . '%:@\/]++|%(?![A-Fa-f0-9]{2}))/', [__CLASS__, 'rawurlencodeMatchZero'], $path);
+        return \preg_replace_callback('/(?:[^' . self::CHAR_UNRESERVED . self::CHAR_SUB_DELIMS . '%:@\/]++|%(?![A-Fa-f0-9]{2}))/', [self::class, 'rawurlencodeMatchZero'], $path);
     }
 
     private function filterQueryAndFragment($str): string
@@ -302,7 +302,7 @@ final class Uri implements UriInterface
             throw new \InvalidArgumentException('Query and fragment must be a string');
         }
 
-        return \preg_replace_callback('/(?:[^' . self::CHAR_UNRESERVED . self::CHAR_SUB_DELIMS . '%:@\/\?]++|%(?![A-Fa-f0-9]{2}))/', [__CLASS__, 'rawurlencodeMatchZero'], $str);
+        return \preg_replace_callback('/(?:[^' . self::CHAR_UNRESERVED . self::CHAR_SUB_DELIMS . '%:@\/\?]++|%(?![A-Fa-f0-9]{2}))/', [self::class, 'rawurlencodeMatchZero'], $str);
     }
 
     private static function rawurlencodeMatchZero(array $match): string
